@@ -1,12 +1,38 @@
-(function($){
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="gb2312">
+    <title></title>
+    <script src="http://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .ajaxUploader-wrapper{ padding: 10px; position: absolute; top: 0; left: 0; width: 150px; background: #fff; background: rgba(255,255,255,.95); border: 1px solid #dadada; border-radius: 5px; }
+        .ajaxUploader-close{ width: 20px; height: 20px; background: #fff; border-radius: 50%/50%; border: 1px solid #dadada; position: absolute; top: -10px; right: -10px; text-align: center; text-decoration: none; color: #ccc; font:bold 16px/20px simsun; }
+        .ajaxUploader-close:hover{ color: #ff9000; border-color: #ff9000; }
+        .ajaxUploader-btn{ display: block; margin: 0 auto; }
+        /*.ajaxUploader-img-wrapper{ position: relative; margin: 0 auto; width: 120px; height: 30px; background: url('upload.png') no-repeat; overflow: hidden; cursor: pointer }
+        .ajaxUploader-img-wrapper input{ position: absolute; right: 0; top: 0; font-size: 100px; opacity: 0; filter: alpha(opacity=0); }*/
+        .ajaxUploader-btn{ margin: 10px auto 0; width: 120px; height: 30px; background: url('btn.png') no-repeat; border: none; font-size: 0; line-height: 0; content: ''; cursor: pointer }
+    </style>
+</head>
+<body>
+    <form action="upload.php" method="post" id="up_form" target="up_iframe" enctype="multipart/form-data">
+        <input type="text" name="pic" id="pic" /><a href="javascript:void(0);" id="upload-pic">上传图片</a>
+        <p><button type="submit">提交</button></p>
+    </form>
+    <div id="pic_show">
+
+    </div>
+
+    <script>
+        (function($){
             /*
-            * iFrame 鎿嶄綔绫�
-            * loaded (fn) 鍒ゆ柇iframe鏄惁杞藉叆瀹屾垚
-            *           element iframe Dom瀵硅薄
-            *           fn 杞藉叆瀹屾垚鍥炶皟鍑芥暟
-            *           context 鍥炶皟鍑芥暟鎵ц涓婁笅鏂�
-            * getDocument 鑾峰彇iframe鍐呴儴document瀵硅薄
-            *           element iframe Dom瀵硅薄
+            * iFrame 操作类
+            * loaded (fn) 判断iframe是否载入完成
+            *           element iframe Dom对象
+            *           fn 载入完成回调函数
+            *           context 回调函数执行上下文
+            * getDocument 获取iframe内部document对象
+            *           element iframe Dom对象
             */
             var Util = {
                 loaded : function(element, fn, context){
@@ -66,13 +92,13 @@
 
                     var btn = document.createElement('button');
                     btn.setAttribute('type', 'submit');
-                    btn.innerHTML = '涓婁紶';
+                    btn.innerHTML = '上传';
                     btn.className = 'ajaxUploader-btn';
 
                     var closeBtn = document.createElement('a');
                     closeBtn.id = 'ajaxUploader_close_' + this.guid;
                     closeBtn.title = 'close';
-                    closeBtn.innerHTML = '脳';
+                    closeBtn.innerHTML = '×';
                     closeBtn.href = 'javascript:void(0);';
                     closeBtn.className = 'ajaxUploader-close';
                     closeBtn.onfocus = function(){ this.blur(); };
@@ -134,7 +160,7 @@
                 }
             };
 
-            /* ajaxUploader jQuery鎻掍欢 */
+            /* ajaxUploader jQuery插件 */
             $.fn.ajaxUploader = function(options){
                 var defaults = { url: 'upload.php', inputName: 'img' };
                 var opt = $.extend({}, defaults, options);
@@ -150,3 +176,27 @@
                 })
             };
         })(jQuery);
+
+
+
+
+        $(function(){
+            $("#pic").ajaxUploader({
+                beforeSend: function(){
+                    this.hide();
+                    $('#pic_show').html('正在上传中');
+                },
+                complete: function(res){
+                    this.obj.value = res.file;
+                    this.hide();
+                    $('#pic_show').html('<img src="'+res.file+'" />');
+                }
+            });
+
+            $("#upload-pic").on("click", function(){
+                $("#pic").ajaxUploader('show');
+            });
+        });
+    </script>
+</body>
+</html>
