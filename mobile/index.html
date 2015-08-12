@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<title>mobile</title>
+	<meta name="apple-mobile-web-app-title" content="mobile" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script>
+    	(function(win){
+    		var dpr, rem, scale;
+			var docEl = document.documentElement;
+			var fontEl = document.createElement('style');
+			var metaEl = document.querySelector('meta[name="viewport"]');
+
+			dpr = win.devicePixelRatio || 1;
+			rem = docEl.clientWidth * 2 / 10;
+			scale = 1 / dpr;
+
+
+			// 设置viewport，进行缩放，达到高清效果
+			metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale + ',user-scalable=no');
+
+			// 设置data-dpr属性，留作的css hack之用
+			docEl.setAttribute('data-dpr', dpr);
+
+			// 动态写入样式
+			docEl.firstElementChild.appendChild(fontEl);
+			fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
+
+			// 给js调用的，某一dpr下rem和px之间的转换函数
+			win.rem2px = function(v) {
+			    v = parseFloat(v);
+			    return v * rem;
+			};
+			win.px2rem = function(v) {
+			    v = parseFloat(v);
+			    return v / rem;
+			};
+
+			win.dpr = dpr;
+			win.rem = rem;
+
+    	})(window);
+    </script>
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" /> -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- <link rel="icon" href="/favicon32.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon-precomposed" href="/img/x6/img/icon/57x57.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/x6/img/icon/114x114.png" />
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 480px)" href="/img/x6/img/startup/640x920.jpg" />
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px)" href="/img/x6/img/startup/640x1096.jpg" /> -->
+</head>
+<body>
+	
+</body>
+</html>
