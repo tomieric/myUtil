@@ -1,0 +1,46 @@
+@import "var";
+@import "mixin";
+
+html,body{
+	margin:0;
+	padding:0;
+	width: 100%;
+	height: 100%;
+	// overflow-x: hidden;
+}
+body{
+	font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;;
+	color: @base-color;
+	background-color:#fff;
+}
+body *{
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+ul,ol,li,em,p,span,h1,h2, input, th{
+	margin:0;
+	padding:0;
+	font-weight:normal;
+	list-style:none;
+	font-style:normal
+}
+input,button,select,textarea{
+	font:normal 26px/1.5 "Microsoft Yahei","Lucida Grande",Tahoma,Verdana,STXihei,hei;
+}
+::-webkit-placeholder,
+::-webkit-input-placeholder,
+::-moz-placeholder,
+:-ms-input-placholder {
+  font-size: 26px;
+  color: @base-color;
+}
+
+.clearfix{
+	&:before,&:after{
+		display: table;
+		content: '';
+	}
+	&:after{
+		clear: both;
+	}
+}
