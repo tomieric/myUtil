@@ -1,0 +1,10 @@
+// by 一丝
+@function hsl($h, $s, $l) {
+	
+	@return unquote('hsl(#{$h}, #{$s}, #{$l})');
+}
+
+@function hsla($h, $s, $l, $a) {
+	
+	@return unquote('hsla(#{$h}, #{$s}, #{$l}, #{$a})');
+}
